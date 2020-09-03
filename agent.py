@@ -114,6 +114,14 @@ class Agent():
             target_param.data.copy_(tau*local_param.data + (1.0-tau)*target_param.data)
     
     def update_critic(self,states, actions, rewards, next_states, dones, gamma):
+        """ update critic 
+        Params
+        ======
+            states:  current state
+            actions:  actions to performe
+            next_states: next state
+            dones : episode finished
+        """
         # Get predicted next-state actions and Q values from target models
         actions_next = self.actor_target(next_states)
         Q_targets_next = self.critic_target(next_states, actions_next)
@@ -129,6 +137,12 @@ class Agent():
         self.critic_optimizer.step()
     
     def update_actor(self,states):
+        """ update actor  
+        Params
+        ======
+            states:  current state
+        """
+
          # Compute actor loss
         actions_pred = self.actor_local(states)
         actor_loss = -self.critic_local(states, actions_pred).mean()
